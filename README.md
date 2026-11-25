@@ -31,7 +31,7 @@ Layers 2–3 are empty. Everything is remappable in [hmkconf](https://hmk.praser
 | --------------- | ---------------------------- | ---------- |
 | MCU             | AT32F405RCT7 (LQFP-64)       | U4         |
 | Crystal         | 12 MHz, X322512MSB4SI, 2 × 30 pF | Y1, C152, C153 |
-| Hall sensors    | 75 × MT9102ET (SOT-23-3)     | HE1–HE75   |
+| Hall sensors    | 75 × DRV5055A3 (SOT-23-3), see below | HE1–HE75 |
 | Analog muxes    | 10 × SN74LV4051A (TSSOP-16)  | AM1–AM10   |
 | LDO, digital    | TLV75733PDYDR, 3.3 V         | U6 (+3.3V) |
 | LDO, analog     | TLV75733PDYDR, 3.3 V         | U5 (+3.3VA, sensors + muxes) |
@@ -81,14 +81,19 @@ Sensor `HEn` sits under key `n`, counted row-major from the top-left; firmware k
 
 ### Hall-effect sensor
 
-**Recommended: MT9102ET.** It is the part in the schematic/BOM, and the firmware's default calibration (rest 2400, bottom-out threshold 650) is set for it, so keys work out of the box without manual calibration.
+**Recommended: DRV5055A3** (Texas Instruments, SOT-23 `DBZ` package).
 
-Other linear ratiometric 3.3 V Hall sensors in SOT-23-3 with the same pinout (VCC, OUT, GND) can be substituted. Each needs different calibration values, adjustable in hmkconf. Known options:
+- Drop-in: SOT-23 pinout is 1 VCC, 2 OUT, 3 GND, matching the footprint. The schematic/PCB still carry the value `MT9102ET`; select DRV5055A3 instead at assembly.
+- Lower supply current: 2 mA typ / 4 mA max at 3.3 V, i.e. ~150 mA typ for 75 sensors on the analog LDO (U5).
+- Sensitivity ≈ 15 mV/mT at 3.3 V (±85 mT range), close to MT9102ET (≈ 16 mV/mT), so the firmware's default calibration applies to both.
+- Decoupling: the existing 100 nF per sensor on VCC meets TI's 10 nF minimum. Check the 4.7 nF capacitor on each OUT against the datasheet's output load limit.
 
-- MT9102ET (default)
+Other linear ratiometric 3.3 V Hall sensors in SOT-23-3 with the same pinout (VCC, OUT, GND) can be substituted. Check the pinout first; calibration may need adjusting in hmkconf. Known options:
+
+- DRV5055A3 (recommended)
+- MT9102ET (schematic value)
 - GH39FKSW
 - SS39ET
-- DRV5055A3
 - OH49E-S (discontinued)
 
 ## Firmware
@@ -98,7 +103,7 @@ The libhmk keyboard definition is in [`firmware/le75he/`](firmware/le75he/). Sum
 - Driver `at32f405xx`, HSE 12 MHz, USB high-speed port.
 - 75 keys, 4 profiles, 4 layers, 32 advanced keys.
 - Mux select `C1, C2, C3`; ADC inputs `A3, A4, A5, A6, A7, C4, C5, B0, B1, A2`.
-- Calibration defaults (MT9102ET): rest 2400, bottom-out threshold 650, ADC not inverted.
+- Calibration defaults (DRV5055A3 / MT9102ET): rest 2400, bottom-out threshold 650, ADC not inverted. Auto-calibration refines these per key at runtime.
 
 Build:
 
