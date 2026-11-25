@@ -4,7 +4,7 @@ LE75HE is a 75-key Hall-effect keyboard PCB in the XD75 form factor (15 × 5 gri
 
 ## Status
 
-- Work in progress. PCB and plate are routed but **not yet fabricated or verified**. Do not order yet.
+- Work in progress. PCB and plate are routed but **not yet fabricated or verified**.
 - Firmware definition is generated from the PCB netlist and passes the libhmk schema check; it is untested on hardware.
 
 ## Layout
