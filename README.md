@@ -79,7 +79,9 @@ Layers 2–3 are empty. Everything is remappable in [hmkconf](https://hmk.praser
 
 Sensor `HEn` sits under key `n`, counted row-major from the top-left; firmware key index is `n − 1`. The exact channel mapping is in [`firmware/le75he/keyboard.json`](firmware/le75he/keyboard.json). Unused mux channels (AM2 X3, AM3 X6, AM6 X3, AM10 X3, AM10 X5) are tied to GND.
 
-### Sensor alternatives
+### Hall-effect sensor
+
+**Recommended: MT9102ET.** It is the part in the schematic/BOM, and the firmware's default calibration (rest 2400, bottom-out threshold 650) is set for it, so keys work out of the box without manual calibration.
 
 Other linear ratiometric 3.3 V Hall sensors in SOT-23-3 with the same pinout (VCC, OUT, GND) can be substituted. Each needs different calibration values, adjustable in hmkconf. Known options:
 
