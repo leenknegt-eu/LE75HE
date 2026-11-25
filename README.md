@@ -48,6 +48,12 @@ Layers 2–3 are empty. Everything is remappable in [hmkconf](https://hmk.praser
 - Plate: [`plate.dxf`](plate.dxf), KiCad source in [`plate/`](plate/).
 - J1 and J2 share the same USB lines; populate only one.
 
+### Case compatibility
+
+- **Gasket mount**: recommended. Should work in 60% gasket-mount cases, as the plate and PCB are held by the gaskets, not the screw holes.
+- **Tray mount**: unlikely to work with most 60% cases. The mounting hole layout does not match standard 60% (GH60) tray positions.
+- Verify USB-C position and plate fit against the specific case before ordering.
+
 ### Pin assignment (U4)
 
 | Signal         | MCU pin     | Connected to |
