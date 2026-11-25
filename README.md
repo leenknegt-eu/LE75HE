@@ -90,6 +90,22 @@ Sensor `HEn` sits under key `n`, counted row-major from the top-left; firmware k
 - **Output capacitor: do not populate (DNP) the 4.7 nF capacitor on each `HEn` net when fitting DRV5055A3.** On this PCB it connects directly from sensor OUT to GND with no series resistor. TI states a capacitor must not be connected directly to the DRV5055 output without a resistor in between, as the output can become unstable. Without it, the sensor drives the mux/ADC directly; libhmk filters the readings in firmware.
 - Next PCB revision (optional): add a series resistor between OUT and the capacitor to form an RC low-pass, e.g. 10 kΩ + 4.7 nF (f₋₃dB ≈ 3.4 kHz).
 
+#### Assembly by sensor
+
+Each key has two 0402 capacitors: 100 nF from +3.3VA to GND (sensor supply) and 4.7 nF from `HEn` (sensor OUT) to GND. The 4.7 nF parts are the only 4.7 nF capacitors on the board (75 pcs).
+
+| Sensor | Part number (HE1–HE75) | 100 nF supply caps | 4.7 nF output caps | Firmware |
+| ------ | ---------------------- | ------------------ | ------------------ | -------- |
+| DRV5055A3 (recommended) | DRV5055A3QDBZR | Populate | **DNP** | No change |
+| MT9102ET | MT9102ET | Populate | Populate | No change |
+
+- **MT9102ET:** the board as drawn. The MT9102 datasheet allows up to 10 nF output load to GND and its reference circuit uses 100 nF on VCC plus an output capacitor directly to GND, so 4.7 nF is within spec.
+- **DRV5055A3:** replace the sensor part in the BOM and exclude the 4.7 nF capacitors from assembly:
+  1. In the fab's BOM/component selection, swap `MT9102ET` for `DRV5055A3QDBZR` on HE1–HE75.
+  2. Deselect (do not place) every 4.7 nF 0402 capacitor.
+  3. Alternatively in KiCad: Schematic Editor → *Symbol Fields Table*, filter Value `4.7n`, tick **DNP** for all 75 rows, then set `"EXCLUDE DNP": true` in `HE75/fabrication-toolkit-options.json` before generating production files.
+- Mixing sensor types on one board is not recommended; both work with the same default calibration, but per-key travel will differ slightly.
+
 Other linear ratiometric 3.3 V Hall sensors in SOT-23-3 with the same pinout (VCC, OUT, GND) can be substituted. Check the pinout first; calibration may need adjusting in hmkconf. Known options:
 
 - DRV5055A3 (recommended)
