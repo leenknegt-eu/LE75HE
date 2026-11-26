@@ -57361,7 +57361,7 @@
 				)
 			)
 		)
-		(property "Value" "BSMD0805-050-24V"
+		(property "Value" "BSMD0805-075-6V"
 			(at 128.27 265.43 90)
 			(show_name no)
 			(do_not_autoplace no)
