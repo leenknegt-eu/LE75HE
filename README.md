@@ -89,7 +89,6 @@ Sensor `HEn` sits under key `n`, counted row-major from the top-left; firmware k
 - Sensitivity ≈ 15 mV/mT at 3.3 V (±85 mT range), close to MT9102ET (≈ 16 mV/mT), so the firmware's default calibration applies to both.
 - Decoupling: the existing 100 nF per sensor on VCC meets TI's 10 nF minimum.
 - **Output capacitor: do not populate (DNP) the 4.7 nF capacitor on each `HEn` net when fitting DRV5055A3.** On this PCB it connects directly from sensor OUT to GND with no series resistor. TI states a capacitor must not be connected directly to the DRV5055 output without a resistor in between, as the output can become unstable. Without it, the sensor drives the mux/ADC directly; libhmk filters the readings in firmware.
-- Next PCB revision (optional): add a series resistor between OUT and the capacitor to form an RC low-pass, e.g. 10 kΩ + 4.7 nF (f₋₃dB ≈ 3.4 kHz).
 
 #### Assembly by sensor
 
