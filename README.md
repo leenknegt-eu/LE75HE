@@ -45,7 +45,7 @@ Layers 2–3 are empty. Everything is remappable in [hmkconf](https://hmk.praser
 
 - PCB: approx. 285 × 94 mm, switches on 19.05 mm pitch.
 - Mounting: 10 × M2 holes (2.2 mm drill).
-- Plate: [`plate.dxf`](plate.dxf), KiCad source in [`plate/`](plate/).
+- Plate: [`plate.dxf`](plate.dxf) in [`plate/`](plate/).
 - J1 and J2 share the same USB lines; populate only one.
 - Important note: a 500mA hold polyfuse is only applicable for applications using the DRV5055A3 hall sensor. If for example the MT9102ET is used a 750mA - 800mA hold polyfuse is required.
 
